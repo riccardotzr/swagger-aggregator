@@ -16,6 +16,6 @@ namespace SwaggerAggregator
         /// </summary>
         /// <param name="endpoint"></param>
         /// <returns></returns>
-        OpenApiDocument GetOpenApiDocument(string endpoint);
+        Task<OpenApiDocument> GetOpenApiDocument(string endpoint);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi.Readers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,9 +25,17 @@ namespace SwaggerAggregator
         }
 
         /// <inheritdoc />
-        public OpenApiDocument GetOpenApiDocument(string endpoint)
+        public async Task<OpenApiDocument> GetOpenApiDocument(string endpoint)
         {
-            throw new NotImplementedException();
+            var stream = await _client.GetStreamAsync(endpoint);
+            var document = new OpenApiStreamReader().Read(stream, out var diagnostic);
+
+            if (diagnostic != null && diagnostic.Errors.Any())
+            {
+                throw new Exception("");
+            }
+
+            return document;
         }
     }
 }
