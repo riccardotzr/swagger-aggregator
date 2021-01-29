@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,6 +22,15 @@ namespace SwaggerAggregator
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureAppConfiguration(builder => 
+                {
+                    var path = Environment.GetEnvironmentVariable("SWAGGER_AGGREGATOR_CONFIG");
+                    
+                    builder.SetBasePath(Directory.GetCurrentDirectory())
+                        .AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: true)
+                        .AddJsonFile(path: path, optional: false, reloadOnChange: true)
+                        .AddEnvironmentVariables();
                 });
     }
 }

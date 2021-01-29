@@ -21,24 +21,28 @@ namespace SwaggerAggregator
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
+
+            services.Configure<SwaggerAggregatorOptions>(Configuration);
+            services.AddSwaggerAggregator();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseSwaggerAggregator(setup =>
+            {
+                var options = Configuration.Get<SwaggerAggregatorOptions>();
+
+                setup.RoutePrefix = "documentation";
+                setup.FileName = "swagger";
+                setup.FileExtension = FileExtension.Yaml;
+                setup.Versions = options.Services.GroupBy(x => x.Version).Select(x => x.Key).ToList();
+            });
 
             app.UseEndpoints(endpoints =>
             {

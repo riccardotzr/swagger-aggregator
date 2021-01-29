@@ -47,10 +47,6 @@ namespace SwaggerAggregator
     /// </summary>
     public class Server
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Name { get; set; }
 
         /// <summary>
         /// 

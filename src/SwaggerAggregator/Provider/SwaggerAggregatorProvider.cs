@@ -30,7 +30,34 @@ namespace SwaggerAggregator
         /// <inheritdoc />
         public OpenApiDocument GetSwagger(string documentName, string host = null, string basePath = null)
         {
-            throw new NotImplementedException();
+            var services = _options.Services.Where(x => x.Version == documentName).ToList();
+            var version = services.FirstOrDefault(x => x.Version == documentName)?.Version;
+
+            var builder = new OpenApiDocumentBuilder();
+            builder.SetServer(_options.Servers);
+            builder.SetInfo(_options.Info, version);
+
+            foreach (var item in services)
+            {
+                var currentServiceDocument = _client.GetOpenApiDocument(item.Url).GetAwaiter().GetResult();
+
+                if (currentServiceDocument.Tags != null && currentServiceDocument.Tags.Any())
+                {
+
+                }
+
+                if (currentServiceDocument.Paths != null)
+                {
+                    builder.SetPath(currentServiceDocument.Paths, item.RemoveApiPrefix);
+                }
+
+                if (currentServiceDocument.Components != null && currentServiceDocument.Components.Schemas.Any())
+                {
+                    builder.SetSchemas(currentServiceDocument.Components.Schemas);
+                }
+            }
+
+            return builder.Build();
         }
     }
 }

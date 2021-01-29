@@ -27,8 +27,8 @@ namespace SwaggerAggregator
         /// <inheritdoc />
         public async Task<OpenApiDocument> GetOpenApiDocument(string endpoint)
         {
-            var stream = await _client.GetStreamAsync(endpoint);
-            var document = new OpenApiStreamReader().Read(stream, out var diagnostic);
+            var stream = await _client.GetStringAsync(endpoint);
+            var document = new OpenApiStringReader().Read(stream, out var diagnostic);
 
             if (diagnostic != null && diagnostic.Errors.Any())
             {
