@@ -36,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SwaggerAggregator\SwaggerAggregator.csproj" />
+    <ProjectReference Include="..\..\src\SwaggerAggregator\SwaggerAggregator.csproj" />
   </ItemGroup>
 
 </Project>
