@@ -1,8 +1,11 @@
-﻿using Microsoft.Extensions.Options;
+﻿using FluentAssertions;
+using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Readers;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
@@ -12,32 +15,23 @@ namespace SwaggerAggregator.Test
     [Collection("Swagger Aggregator Provider")]
     public class SwaggerAggregatorProvidertest
     {
-        [Fact]
-        public void Test()
+        [Theory(DisplayName = "")]
+        [ClassData(typeof(SwaggerAggregatorOptionsData))]
+        public void Should_Be_The_Same(SwaggerAggregatorOptions options)
         {
-            var options = new SwaggerAggregatorOptions()
-            {
-                Info = new Info
-                {
-                    Title = "Swagger Aggregator Microservices",
-                    Description = "Description Swagger Aggregator Microservices"
-                },
-                Servers = new List<Server>
-                {
-                    new Server { Url = "https://staging.environment/", Description = "Microservices One Swagger" },
-                },
-                Services = new List<Service>
-                {
-                    new Service { Url = "https://microservice-one/swagger/", Name = "Microservices One", Version = "1.0.0", RemoveApiPrefix = false  },
-                    new Service { Url = "https://microservice-two/swagger/", Name = "Microservices Two", Version = "1.0.0", RemoveApiPrefix = false  }
-                }
-            };
-
             var optionMock = new Mock<IOptions<SwaggerAggregatorOptions>>();
             optionMock.Setup(x => x.Value).Returns(options);
 
-            var provider = new SwaggerAggregatorProvider(optionMock.Object, null);
-            provider.GetSwagger("v1");
+            var httpClient = new HttpClient(new MockHttpMessageHandlerSwaggerProvider());
+            var swaggerClient = new SwaggerHttpClient(httpClient);
+
+            var provider = new SwaggerAggregatorProvider(optionMock.Object, swaggerClient);
+            var actual = provider.GetSwagger("1.0");
+
+            var expectedResult = new OpenApiStreamReader().Read(Resources.GetStreamContent("Samples/AggregatorDocument.yaml"), out var diagnostic);
+
+            actual.Should().NotBeNull();
+            actual.Should().BeEquivalentTo(expectedResult);
         }
     }
 }

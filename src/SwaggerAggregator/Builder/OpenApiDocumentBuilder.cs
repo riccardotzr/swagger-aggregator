@@ -38,7 +38,7 @@ namespace SwaggerAggregator
             {
                 Title = info.Title,
                 Description = info.Description,
-                Version = version ?? "1.0.0"
+                Version = version ?? "1.0"
             };
 
             return this;
@@ -96,7 +96,10 @@ namespace SwaggerAggregator
         {
             foreach (var item in schemas)
             {
-                _document.Components.Schemas.Add(item.Key, item.Value);
+                if (!_document.Components.Schemas.ContainsKey(item.Key))
+                {
+                    _document.Components.Schemas.Add(item.Key, item.Value);
+                }
             }
 
             return this;

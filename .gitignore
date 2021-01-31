@@ -8,6 +8,10 @@ nupkg/
 # Visual Studio Code
 .vscode
 
+# Unit Test
+*.info
+TestResults/
+
 # Rider
 .idea
 

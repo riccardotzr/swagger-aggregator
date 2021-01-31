@@ -1,6 +1,8 @@
 ﻿using FluentAssertions;
 using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Readers;
+using Microsoft.OpenApi.Validations;
+using Moq;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -16,10 +18,12 @@ namespace SwaggerAggregator.Test
     [Collection("HttpClient")]
     public class SwaggerHttpClientTest
     {
-        [Fact(DisplayName = "")]
-        public async Task Should_Returns_HttpStatus_Code_200()
+        [Theory(DisplayName = "Returns HTTP Status Code 200")]
+        [InlineData("Samples/MockFirstDocument.yaml")]
+        [InlineData("Samples/MockSecondDocument.yaml")]
+        public async Task Should_Returns_Ok(string path)
         { 
-            var content = Resources.GetFileContent("Samples/swagger.yaml");
+            var content = Resources.GetFileContent(path);
 
             var client = new HttpClient(new MockHttpMessageHandler(new HttpResponseMessage
             {
@@ -30,49 +34,61 @@ namespace SwaggerAggregator.Test
             var swaggerClient = new SwaggerHttpClient(client);
             var actualResult = await swaggerClient.GetOpenApiDocument("https://my-microservice.com/");
 
-            var expectedResult = new OpenApiDocument()
-            {
-                Info = new OpenApiInfo
-                {
-                    Title = "Microservices Swagger Aggregator",
-                    Description = "Swagger Aggregator Microservices",
-                    TermsOfService = new Uri("http://swagger.io/terms/"),
-                    Contact = new OpenApiContact
-                    {
-                        Email = "email: apiteam@swagger.io"
-                    },
-                    License = new OpenApiLicense
-                    {
-                        Name = "Apache 2.0",
-                        Url = new Uri("http://www.apache.org/licenses/LICENSE-2.0.html")
-                    },
-                    Version = "1.0.0"
-                },
-                Servers = new List<OpenApiServer>
-                {
-                    new OpenApiServer { Url = "https://microservices_one/v2", Description = "Swagger Microservice One" },
-                    new OpenApiServer { Url = "https://microservices_two/v2", Description = "Swagger Microservice Two" }
-                },
-                Tags = new List<OpenApiTag>
-                {
-                    new OpenApiTag
-                    {
-                        Name = "pet",
-                        Description = "Everything about your Pets",
-                        ExternalDocs = new OpenApiExternalDocs
-                        {
-                            Url = new Uri("http://swagger.io"),
-                            Description = "Find out more"
-                        }
-                    }
-                },
-                Paths = new OpenApiPaths { },
-            };
+            var expectedResult = new OpenApiStringReader().Read(content, out var diagnostic);
 
             actualResult.Should().NotBeNull();
-            //actualResult.Should().BeEquivalentTo(expectedResult);
+            diagnostic.Errors.Should().BeEmpty();
+            actualResult.Should().BeEquivalentTo(expectedResult);
         }
 
-        
+        [Theory(DisplayName = "Throws an exception when dependency returns an error")]
+        [InlineData(HttpStatusCode.NotFound)]
+        [InlineData(HttpStatusCode.Unauthorized)]
+        [InlineData(HttpStatusCode.InternalServerError)]
+        public async Task Should_Throws_An_Exception_When_Dependency_Returns_An_Error(HttpStatusCode statusCode)
+        {
+            var endpoint = "https://my-microservice.com/";
+            
+            var client = new HttpClient(new MockHttpMessageHandler(new HttpResponseMessage
+            {
+                StatusCode = statusCode,
+                Content = new StringContent("An error has occurred please try again later"),
+            }));
+
+            var swaggerClient = new SwaggerHttpClient(client);
+            var result = await Assert.ThrowsAsync<Exception>(() => swaggerClient.GetOpenApiDocument(endpoint));
+
+            result.Should().NotBeNull();
+            result.Should().BeOfType<Exception>();
+            result.Message.Should().Be($"The operation could not be completed. Endpoint: {endpoint}");
+
+        }
+
+        [Fact(DisplayName = "Throws an exception when OpenApiStringReader fail due to a validation error")]
+        public async Task Should_Throws_An_Exception_When_OpenApiStreamReader_Fail_Validation()
+        {
+            var expectedErrors = new List<OpenApiValidatorError>()
+            {
+                new OpenApiValidatorError("OpenApiDocumentFieldIsMissing", "#/paths", "The field 'paths' in 'document' object is REQUIRED."),
+            };
+
+            var endpoint = "https://my-microservice.com/";
+            var content = Resources.GetFileContent("Samples/ValidationExceptionDocument.yaml");
+
+            var client = new HttpClient(new MockHttpMessageHandler(new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(content),
+            }));
+
+            var swaggerClient = new SwaggerHttpClient(client);
+            var result = await Assert.ThrowsAsync<ReaderException>(() => swaggerClient.GetOpenApiDocument(endpoint));
+
+            result.Should().NotBeNull();
+            result.Should().BeOfType<ReaderException>();
+            result.Message.Should().Be($"An error has occurred while reading content from: {endpoint}");
+            result.Errors.Should().NotBeEmpty();
+            result.Errors.Should().BeEquivalentTo(expectedErrors);
+        }
     }
 }

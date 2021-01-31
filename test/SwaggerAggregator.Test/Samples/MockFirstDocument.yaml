@@ -1,0 +1,201 @@
+﻿openapi: 3.0.1
+info:
+  title: User API Documentation
+  description: CRUD User Api
+  version: '1.0'
+servers:
+  - url: http://localhost
+paths:
+  '/v1/users/{id}':
+    get:
+      tags:
+        - Users
+      summary: Find a User by ID
+      description: Find a User by ID
+      parameters:
+        - name: id
+          in: path
+          description: 'User Id'
+          required: true
+          schema:
+            type: integer
+            description: ''
+            format: int32
+      responses:
+        '200':
+          description: Returns the requested user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: Internal Server Error
+          content:
+             application/json:
+              schema:
+                $ref: '#/components/schemas/InternalSeverErrorResponse'
+  /v1/users:
+    post:
+      tags:
+        - Users
+      summary: Create new User
+      description: Create new User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: Internal Server Error
+          content:
+             application/json:
+              schema:
+                $ref: '#/components/schemas/InternalSeverErrorResponse'
+  /v1/users/search:
+    get:
+      tags:
+        - Users
+      summary: Search User
+      description: Search a user by FirstName and LastName
+      parameters:
+        - name: FirstName
+          in: query
+          schema:
+            type: string
+            nullable: true
+        - name: LastName
+          in: query
+          schema:
+            type: string
+            nullable: true
+      responses:
+        '200':
+          description: Returns the requested user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: Internal Server Error
+          content:
+             application/json:
+              schema:
+                $ref: '#/components/schemas/InternalSeverErrorResponse'
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        Id:
+          type: integer
+          nullable: false
+        FistName:
+          type: string
+          nullable: false
+        LastName:
+          type: string
+          nullable: false
+      additionalProperties: false
+    BadRequestResponse:
+      type: object
+      properties:
+        Code:
+          type: string
+          nullable: false
+        Parameter:
+          type: string
+          nullable: false
+        Message:
+          type: string
+          nullable: false
+      additionalProperties: false
+    UnauthorizedResponse:
+      type: object
+      properties:
+        Message:
+          type: string
+          nullable: false
+      additionalProperties: false
+    ForbiddenResponse:
+      type: object
+      properties:
+        Message:
+          type: string
+          nullable: false
+      additionalProperties: false
+    InternalSeverErrorResponse:
+      type: object
+      properties:
+        UserMessage:
+          type: string
+          nullable: false
+        DeveloperMessage:
+          type: string
+          nullable: false
+        Details:
+          type: object
+          nullable: false
+      additionalProperties: false

@@ -12,12 +12,21 @@ namespace SwaggerAggregator.Test
         private static string GetPath(string fileName)
         {
             var pathSeparator = ".";
-            //var result = $"{typeof(Resources).Namespace}{pathSeparator}{fileName.Replace('/', '.')}";
-            //return result;
-    
-            //var path = Path.Combine(typeof(Resources).Namespace, fileName);
             return typeof(Resources).Namespace + pathSeparator + fileName.Replace('/', '.');
-            //return path;
+        }
+
+        public static Stream GetStreamContent(string fileName)
+        {
+            var path = GetPath(fileName);
+            var stream = typeof(Resources).Assembly.GetManifestResourceStream(path);
+
+            if (stream == null)
+            {
+                var message = $"The embedded resource {fileName} was not found in {path}";
+                throw new FileNotFoundException(message);
+            }
+
+            return stream;
         }
 
         public static string GetFileContent(string fileName)

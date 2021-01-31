@@ -1,0 +1,113 @@
+﻿openapi: 3.0.1
+info:
+  title: Microservice Swagger Aggregator
+  description: An example of Swagger Aggregator
+  version: '1.0'
+servers:
+  - url: http://localhost
+paths:
+  '/v1/orders/{id}':
+    get:
+      tags:
+        - Orders
+      summary: Find a Order by ID
+      description: Find a Order by ID
+      parameters:
+        - name: id
+          in: path
+          description: 'Order Id'
+          required: true
+          schema:
+            type: integer
+            description: ''
+            format: int32
+      responses:
+        '200':
+          description: Returns the requested order
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: Internal Server Error
+          content:
+             application/json:
+              schema:
+                $ref: '#/components/schemas/InternalSeverErrorResponse'
+components:
+  schemas:
+    Order:
+      type: object
+      properties:
+        Id:
+          type: string
+          nullable: false
+        UserId:
+          type: integer
+          nullable: false
+          format: int32
+        OrderDate:
+          type: string
+          nullable: false
+        OrderStatus:
+          type: string
+          nullable: false
+    BadRequestResponse:
+      type: object
+      properties:
+        Code:
+          type: string
+          nullable: false
+        Parameter:
+          type: string
+          nullable: false
+        Message:
+          type: string
+          nullable: false
+      additionalProperties: false
+    UnauthorizedResponse:
+      type: object
+      properties:
+        Message:
+          type: string
+          nullable: false
+      additionalProperties: false
+    ForbiddenResponse:
+      type: object
+      properties:
+        Message:
+          type: string
+          nullable: false
+      additionalProperties: false
+    InternalSeverErrorResponse:
+      type: object
+      properties:
+        UserMessage:
+          type: string
+          nullable: false
+        DeveloperMessage:
+          type: string
+          nullable: false
+        Details:
+          type: object
+          nullable: false
+      additionalProperties: false
+        

@@ -7,10 +7,33 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Samples\AggregatorDocument.yaml" />
+    <None Remove="Samples\MockFirstDocument.yaml" />
+    <None Remove="Samples\MockSecondDocument.yaml" />
     <None Remove="Samples\swagger.yaml" />
+    <None Remove="Samples\UnsopportedExceptionDocument.yaml" />
+    <None Remove="Samples\ValidationExceptionDocument.yaml" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Samples\UnsopportedExceptionDocument.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Samples\AggregatorDocument.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Samples\ValidationExceptionDocument.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Samples\MockFirstDocument.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Samples\MockSecondDocument.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Samples\swagger.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

@@ -16,9 +16,11 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns></returns>
         public static IApplicationBuilder UseSwaggerAggregator(this IApplicationBuilder app, SwaggerAggregatorUIOptions options)
         {
+            var documentName = "{documentName}";
+
             app.UseSwagger(setup =>
             {
-                setup.RouteTemplate = $"{options.RoutePrefix}/documentName/{options.FileName}.{options.FileExtension}";
+                setup.RouteTemplate = $"{options.RoutePrefix}/{documentName}/{options.FileName}.{options.FileExtension}";
             });
 
             app.UseSwaggerUI(setup =>
