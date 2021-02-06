@@ -2,6 +2,7 @@
 using Microsoft.OpenApi.Readers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -34,7 +35,7 @@ namespace SwaggerAggregator
 
                 if (diagnostic != null && diagnostic.Errors.Any())
                 {
-                    throw new ReaderException($"An error has occurred while reading content from: {endpoint}", diagnostic.Errors);
+                    throw new ReaderException($"An error has occurred while reading content from: {endpoint}", endpoint, diagnostic.Errors);
                 }
 
                 return document;

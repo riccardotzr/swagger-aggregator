@@ -21,7 +21,11 @@ namespace SwaggerAggregator.Test
         [Theory(DisplayName = "Returns HTTP Status Code 200")]
         [InlineData("Samples/MockFirstDocument.yaml")]
         [InlineData("Samples/MockSecondDocument.yaml")]
-        public async Task Should_Returns_Ok(string path)
+        [InlineData("Samples/MockFirstDocumentV2.yaml")]
+        [InlineData("Samples/MockSecondDocumentV2.yaml")]
+        [InlineData("Samples/MockFirstDocumentWithApiPrefix.yaml")]
+        [InlineData("Samples/MockSecondDocumentWithApiPrefix.yaml")]
+        public async Task Should_Return_Ok(string path)
         { 
             var content = Resources.GetFileContent(path);
 
@@ -45,7 +49,7 @@ namespace SwaggerAggregator.Test
         [InlineData(HttpStatusCode.NotFound)]
         [InlineData(HttpStatusCode.Unauthorized)]
         [InlineData(HttpStatusCode.InternalServerError)]
-        public async Task Should_Throws_An_Exception_When_Dependency_Returns_An_Error(HttpStatusCode statusCode)
+        public async Task Should_Throw_An_Exception_When_Dependency_Returns_An_Error(HttpStatusCode statusCode)
         {
             var endpoint = "https://my-microservice.com/";
             
@@ -65,14 +69,14 @@ namespace SwaggerAggregator.Test
         }
 
         [Fact(DisplayName = "Throws an exception when OpenApiStringReader fail due to a validation error")]
-        public async Task Should_Throws_An_Exception_When_OpenApiStreamReader_Fail_Validation()
+        public async Task Should_Throw_An_Exception_When_OpenApiStreamReader_Fail_Validation()
         {
+            var endpoint = "https://my-microservice.com/";
+
             var expectedErrors = new List<OpenApiValidatorError>()
             {
                 new OpenApiValidatorError("OpenApiDocumentFieldIsMissing", "#/paths", "The field 'paths' in 'document' object is REQUIRED."),
             };
-
-            var endpoint = "https://my-microservice.com/";
             var content = Resources.GetFileContent("Samples/ValidationExceptionDocument.yaml");
 
             var client = new HttpClient(new MockHttpMessageHandler(new HttpResponseMessage
@@ -87,6 +91,7 @@ namespace SwaggerAggregator.Test
             result.Should().NotBeNull();
             result.Should().BeOfType<ReaderException>();
             result.Message.Should().Be($"An error has occurred while reading content from: {endpoint}");
+            result.Endpoint.Should().Be(endpoint);
             result.Errors.Should().NotBeEmpty();
             result.Errors.Should().BeEquivalentTo(expectedErrors);
         }

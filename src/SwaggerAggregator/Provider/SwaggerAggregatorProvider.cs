@@ -34,8 +34,8 @@ namespace SwaggerAggregator
             var version = services.FirstOrDefault(x => x.Version == documentName)?.Version;
 
             var builder = new OpenApiDocumentBuilder();
-            builder.SetServer(_options.Servers);
-            builder.SetInfo(_options.Info, version);
+            builder.SetInfo(_options.Info, version)
+                .SetServer(_options.Servers);
 
             foreach (var item in services)
             {
@@ -43,7 +43,7 @@ namespace SwaggerAggregator
 
                 if (currentServiceDocument.Tags != null && currentServiceDocument.Tags.Any())
                 {
-
+                    builder.SetTags(currentServiceDocument.Tags);
                 }
 
                 if (currentServiceDocument.Paths != null)
@@ -56,6 +56,8 @@ namespace SwaggerAggregator
                     builder.SetSchemas(currentServiceDocument.Components.Schemas);
                 }
             }
+
+            // TODO: Implement Security Schemes
 
             return builder.Build();
         }

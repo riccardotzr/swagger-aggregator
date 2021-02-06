@@ -2,18 +2,12 @@
 info:
   title: Microservice Swagger Aggregator
   description: An example of Swagger Aggregator
-  version: '1.0'
-  termsOfService: http://swagger.io/terms/
-  contact:
-    email: support@swagger.io
-  license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: '2.0'
 servers:
   - url: http://localhost
     description: Localhost server URL
 paths:
-  '/v1/users/{id}':
+  '/v2/users/{id}':
     get:
       tags:
         - Users
@@ -59,7 +53,59 @@ paths:
              application/json:
               schema:
                 $ref: '#/components/schemas/InternalSeverErrorResponse'
-  /v1/users:
+    put:
+      tags: 
+       - Users
+      summary: Update User
+      description: Update User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/User'
+      parameters:
+        - name: id
+          in: path
+          description: 'User Id'
+          required: true
+          schema:
+            type: integer
+            description: ''
+            format: int32
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: Internal Server Error
+          content:
+             application/json:
+              schema:
+                $ref: '#/components/schemas/InternalSeverErrorResponse'
+  /v2/users:
     post:
       tags:
         - Users
@@ -103,7 +149,7 @@ paths:
              application/json:
               schema:
                 $ref: '#/components/schemas/InternalSeverErrorResponse'
-  /v1/users/search:
+  /v2/users/search:
     get:
       tags:
         - Users
@@ -151,7 +197,7 @@ paths:
              application/json:
               schema:
                 $ref: '#/components/schemas/InternalSeverErrorResponse'
-  '/v1/orders/{id}':
+  '/v2/orders/{id}':
     get:
       tags:
         - Orders
@@ -173,6 +219,50 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Order'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: Internal Server Error
+          content:
+             application/json:
+              schema:
+                $ref: '#/components/schemas/InternalSeverErrorResponse'
+  /v2/orders:
+    post:
+      tags:
+        - Orders
+      summary: Create new Order
+      description: Create new Order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '204':
+          description: No Content
         '400':
           description: Bad Request
           content:

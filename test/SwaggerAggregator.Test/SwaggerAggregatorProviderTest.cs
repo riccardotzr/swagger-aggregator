@@ -15,20 +15,20 @@ namespace SwaggerAggregator.Test
     [Collection("Swagger Aggregator Provider")]
     public class SwaggerAggregatorProvidertest
     {
-        [Theory(DisplayName = "")]
+        [Theory(DisplayName = "Swagger Aggregator By Version")]
         [ClassData(typeof(SwaggerAggregatorOptionsData))]
-        public void Should_Be_The_Same(SwaggerAggregatorOptions options)
+        public void Should_Be_Aggregated_By_Version(SwaggerAggregatorData data)
         {
             var optionMock = new Mock<IOptions<SwaggerAggregatorOptions>>();
-            optionMock.Setup(x => x.Value).Returns(options);
+            optionMock.Setup(x => x.Value).Returns(data.Options);
 
-            var httpClient = new HttpClient(new MockHttpMessageHandlerSwaggerProvider());
+            var httpClient = new HttpClient(new MockHttpMessageHandlerSwaggerProvider(data.HttpClientMockData));
             var swaggerClient = new SwaggerHttpClient(httpClient);
 
             var provider = new SwaggerAggregatorProvider(optionMock.Object, swaggerClient);
-            var actual = provider.GetSwagger("1.0");
+            var actual = provider.GetSwagger(data.Version);
 
-            var expectedResult = new OpenApiStreamReader().Read(Resources.GetStreamContent("Samples/AggregatorDocument.yaml"), out var diagnostic);
+            var expectedResult = new OpenApiStreamReader().Read(Resources.GetStreamContent(data.ExpectedResultFile), out var diagnostic);
 
             actual.Should().NotBeNull();
             actual.Should().BeEquivalentTo(expectedResult);

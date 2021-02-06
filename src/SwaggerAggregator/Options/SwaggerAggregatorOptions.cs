@@ -26,6 +26,40 @@ namespace SwaggerAggregator
         public List<Service> Services { get; set; }
     }
 
+    public class Contact
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Email { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Url { get; set; }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class License
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Url { get; set; }
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -40,6 +74,21 @@ namespace SwaggerAggregator
         /// 
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string TermsOfService { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Contact Contact { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public License License { get; set; }
     }
 
     /// <summary>

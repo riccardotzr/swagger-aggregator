@@ -20,7 +20,9 @@ namespace SwaggerAggregator
         {
             _document = new OpenApiDocument
             {
+                Info = new OpenApiInfo(),
                 Servers = new List<OpenApiServer>(),
+                Tags = new List<OpenApiTag>(),
                 Paths = new OpenApiPaths(),
                 Components = new OpenApiComponents()
             };
@@ -38,7 +40,19 @@ namespace SwaggerAggregator
             {
                 Title = info.Title,
                 Description = info.Description,
-                Version = version ?? "1.0"
+                Version = version ?? "1.0",
+                TermsOfService = !string.IsNullOrEmpty(info.TermsOfService) ? new Uri(info.TermsOfService) : null,
+                Contact = info.Contact == null ? null : new OpenApiContact
+                {
+                    Email = !string.IsNullOrEmpty(info.Contact.Email) ? info.Contact.Email : null,
+                    Name = !string.IsNullOrEmpty(info.Contact.Name) ? info.Contact.Name : null,
+                    Url = !string.IsNullOrEmpty(info.Contact.Url) ? new Uri(info.Contact.Url) : null,
+                },
+                License = info.License == null ? null : new OpenApiLicense
+                {
+                    Name = !string.IsNullOrEmpty(info.License.Name) ? info.License.Name : null,
+                    Url = !string.IsNullOrEmpty(info.License.Url) ? new Uri(info.License.Url) : null
+                }
             };
 
             return this;
@@ -66,6 +80,24 @@ namespace SwaggerAggregator
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="tags"></param>
+        /// <returns></returns>
+        public OpenApiDocumentBuilder SetTags(IList<OpenApiTag> tags)
+        {
+            foreach (var tag in tags)
+            {
+                if (!_document.Tags.Contains(tag))
+                {
+                    _document.Tags.Add(tag);
+                }
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="paths"></param>
         /// <param name="removePrefix"></param>
         /// <returns></returns>
@@ -73,14 +105,17 @@ namespace SwaggerAggregator
         {
             foreach (var item in paths)
             {
-                if (removePrefix)
+                if (!_document.Paths.Contains(item))
                 {
-                    var path = item.Key.Replace("/api", "");
-                    _document.Paths[path] = item.Value;
-                }
-                else
-                {
-                    _document.Paths[item.Key] = item.Value;
+                    if (removePrefix)
+                    {
+                        var path = item.Key.Replace("/api", "");
+                        _document.Paths[path] = item.Value;
+                    }
+                    else
+                    {
+                        _document.Paths[item.Key] = item.Value;
+                    }
                 }
             }
 
@@ -102,6 +137,11 @@ namespace SwaggerAggregator
                 }
             }
 
+            return this;
+        }
+
+        public OpenApiDocumentBuilder SetSecuritySchemas()
+        {
             return this;
         }
 

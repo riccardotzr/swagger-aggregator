@@ -11,27 +11,34 @@ namespace SwaggerAggregator.Test
 {
     public class MockHttpMessageHandlerSwaggerProvider : DelegatingHandler
     {
+        private readonly Dictionary<string, string> _ExpectedResults;
+
+        public MockHttpMessageHandlerSwaggerProvider(Dictionary<string, string> expectedResults)
+        {
+            _ExpectedResults = expectedResults ?? throw new ArgumentNullException(nameof(expectedResults));
+        }
+
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var firstMicroservicesExpectedResultStream = Resources.GetFileContent("Samples/MockFirstDocument.yaml");
-            var secondMicroserviceExpectedResultStream = Resources.GetFileContent("Samples/MockSecondDocument.yaml");
-
-            if (request.RequestUri.AbsoluteUri.Contains("microservice-one"))
+            if (_ExpectedResults.ContainsKey(request.RequestUri.AbsoluteUri))
             {
+                var contentString = _ExpectedResults.FirstOrDefault(x => x.Key == request.RequestUri.AbsoluteUri).Value;
+                var content = Resources.GetFileContent(contentString);
+
                 return await Task.FromResult(new HttpResponseMessage
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(firstMicroservicesExpectedResultStream)
+                    Content = new StringContent(content)
                 });
             }
             else
             {
                 return await Task.FromResult(new HttpResponseMessage
                 {
-                    StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(secondMicroserviceExpectedResultStream)
+                    StatusCode = HttpStatusCode.NotFound
                 });
             }
+            
         }
     }
 }

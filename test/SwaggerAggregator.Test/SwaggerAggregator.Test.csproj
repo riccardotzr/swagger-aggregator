@@ -8,15 +8,30 @@
 
   <ItemGroup>
     <None Remove="Samples\AggregatorDocument.yaml" />
+    <None Remove="Samples\AggregatorDocumentV2.yaml" />
     <None Remove="Samples\MockFirstDocument.yaml" />
+    <None Remove="Samples\MockFirstDocumentV2.yaml" />
+    <None Remove="Samples\MockFirstDocumentWithApiPrefix.yaml" />
     <None Remove="Samples\MockSecondDocument.yaml" />
-    <None Remove="Samples\swagger.yaml" />
-    <None Remove="Samples\UnsopportedExceptionDocument.yaml" />
+    <None Remove="Samples\MockSecondDocumentV2.yaml" />
+    <None Remove="Samples\MockSecondDocumentWithApiPrefix.yaml" />
     <None Remove="Samples\ValidationExceptionDocument.yaml" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Samples\UnsopportedExceptionDocument.yaml">
+    <EmbeddedResource Include="Samples\AggregatorDocumentV2.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Samples\MockFirstDocumentV2.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Samples\MockFirstDocumentWithApiPrefix.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Samples\MockSecondDocumentV2.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Samples\MockSecondDocumentWithApiPrefix.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
@@ -32,9 +47,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Samples\MockSecondDocument.yaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Samples\swagger.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
