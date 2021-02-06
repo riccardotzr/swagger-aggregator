@@ -140,10 +140,79 @@ namespace SwaggerAggregator
             return this;
         }
 
-        public OpenApiDocumentBuilder SetSecuritySchemas()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="httpAuthentication"></param>
+        /// <returns></returns>
+        public OpenApiDocumentBuilder SetHttpSecuritySchemes(HttpAuthentication httpAuthentication)
         {
+            var reference = new OpenApiReference
+            {
+                Id = "http_auth",
+                Type = ReferenceType.SecurityScheme
+            };
+
+            if (!_document.Components.SecuritySchemes.ContainsKey("http_auth"))
+            {
+                _document.Components.SecuritySchemes.Add("http_auth", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.Http,
+                    Scheme = httpAuthentication.Scheme,
+                    Reference = reference
+                });
+            }
+
+            var securityRequirement = new OpenApiSecurityRequirement
+            {
+                { 
+                    new OpenApiSecurityScheme 
+                    { 
+                        Type = SecuritySchemeType.Http,
+                        Scheme = httpAuthentication.Scheme,
+                        Reference = reference
+                    }, Enumerable.Empty<string>().ToList() 
+                }
+            };
+
+            if (!_document.SecurityRequirements.Contains(securityRequirement))
+            {
+                _document.SecurityRequirements.Add(securityRequirement);
+            }
+
             return this;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="apiKeyAuthentication"></param>
+        /// <returns></returns>
+        public OpenApiDocumentBuilder SetApiKeySecuriySchemes(ApiKeyAuthentication apiKeyAuthentication)
+        {
+            if (!_document.Components.SecuritySchemes.ContainsKey("api_key_auth"))
+            {
+                _document.Components.SecuritySchemes.Add("api_key_auth", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.ApiKey,
+                    In = apiKeyAuthentication.In.ToParameterLocation(),
+                    Name = apiKeyAuthentication.Name,
+                });
+            }
+
+            var securityRequirement = new OpenApiSecurityRequirement
+            {
+                { new OpenApiSecurityScheme { Name = "api_key_auth" }, Enumerable.Empty<string>().ToList() }
+            };
+
+            if (!_document.SecurityRequirements.Contains(securityRequirement))
+            {
+                _document.SecurityRequirements.Add(securityRequirement);
+            }
+
+            return this;
+        }
+
 
         /// <summary>
         /// 

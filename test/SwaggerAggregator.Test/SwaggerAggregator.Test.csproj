@@ -9,6 +9,7 @@
   <ItemGroup>
     <None Remove="Samples\AggregatorDocument.yaml" />
     <None Remove="Samples\AggregatorDocumentV2.yaml" />
+    <None Remove="Samples\AggregatorDocumentWithBaseAuthentication.yaml" />
     <None Remove="Samples\MockFirstDocument.yaml" />
     <None Remove="Samples\MockFirstDocumentV2.yaml" />
     <None Remove="Samples\MockFirstDocumentWithApiPrefix.yaml" />
@@ -20,6 +21,9 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Samples\AggregatorDocumentV2.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Samples\AggregatorDocumentWithBaseAuthentication.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Samples\MockFirstDocumentV2.yaml">

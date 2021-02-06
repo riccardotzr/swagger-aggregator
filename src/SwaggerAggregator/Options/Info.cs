@@ -8,32 +8,31 @@ namespace SwaggerAggregator
     /// <summary>
     /// 
     /// </summary>
-    public class SwaggerAggregatorOptions
+    public class Info
     {
         /// <summary>
         /// 
         /// </summary>
-        public Info Info { get; set; }
+        public string Title { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public List<Server> Servers { get; set; }
+        public string Description { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public List<Service> Services { get; set; }
+        public string TermsOfService { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public HttpAuthentication HttpAuthentication { get; set; }
+        public Contact Contact { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public ApiKeyAuthentication ApiKeyAuthentication { get; set; }
-
+        public License License { get; set; }
     }
 }

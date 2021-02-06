@@ -142,6 +142,52 @@ namespace SwaggerAggregator.Test
                     }
                 }
             };
+
+            yield return new object[]
+            {
+                new SwaggerAggregatorData
+                {
+                    Version = "1.0",
+                    ExpectedResultFile = "Samples/AggregatorDocumentWithBaseAuthentication.yaml",
+                    HttpClientMockData = new Dictionary<string, string>
+                    {
+                        { "https://microservice-one/swagger/", "Samples/MockFirstDocument.yaml" },
+                        { "https://microservice-two/swagger/", "Samples/MockSecondDocument.yaml" },
+                    },
+                    Options = new SwaggerAggregatorOptions
+                    {
+                        Info = new Info
+                        {
+                            Title = "Microservice Swagger Aggregator",
+                            Description = "An example of Swagger Aggregator",
+                            TermsOfService = "http://swagger.io/terms/",
+                            Contact = new Contact
+                            {
+                                Email = "support@swagger.io"
+                            },
+                            License = new License
+                            {
+                                Name = "Apache 2.0",
+                                Url = "http://www.apache.org/licenses/LICENSE-2.0.html"
+                            }
+                        },
+                        Servers = new List<Server>
+                        {
+                            new Server { Url = "http://localhost", Description = "Localhost server URL" },
+                        },
+                        Services = new List<Service>
+                        {
+                            new Service { Url = "https://microservice-one/swagger/", Name = "Microservices One", Version = "1.0", RemoveApiPrefix = false },
+                            new Service { Url = "https://microservice-two/swagger/", Name = "Microservices Two", Version = "1.0", RemoveApiPrefix = false },
+                            new Service { Url = "https://microservice-one-v2/swagger", Name = "Microservices One", Version = "2.0", RemoveApiPrefix = false},
+                        },
+                        HttpAuthentication = new HttpAuthentication
+                        {
+                            Scheme = "basic"
+                        }
+                    }
+                }
+            };
         }
 
         IEnumerator IEnumerable.GetEnumerator()
