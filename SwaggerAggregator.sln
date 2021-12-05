@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{71B04C6F-047F-4D2C-9AB5-523285FDDB4C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{AB92DBD7-3C98-4840-8D97-9D6FDA89E56B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwaggerAggregator.Test", "test\SwaggerAggregator.Test\SwaggerAggregator.Test.csproj", "{3EE37E9A-645C-401E-9C33-A8D5FDC0E9D7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{35E50B4B-5395-4310-A315-AFB308E93CE0}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwaggerAggregator", "src\SwaggerAggregator\SwaggerAggregator.csproj", "{BEEAC872-1EF5-4AE6-8BA8-5BB70455FC59}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3EE37E9A-645C-401E-9C33-A8D5FDC0E9D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EE37E9A-645C-401E-9C33-A8D5FDC0E9D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EE37E9A-645C-401E-9C33-A8D5FDC0E9D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EE37E9A-645C-401E-9C33-A8D5FDC0E9D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEEAC872-1EF5-4AE6-8BA8-5BB70455FC59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEEAC872-1EF5-4AE6-8BA8-5BB70455FC59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEEAC872-1EF5-4AE6-8BA8-5BB70455FC59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEEAC872-1EF5-4AE6-8BA8-5BB70455FC59}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3EE37E9A-645C-401E-9C33-A8D5FDC0E9D7} = {AB92DBD7-3C98-4840-8D97-9D6FDA89E56B}
+		{BEEAC872-1EF5-4AE6-8BA8-5BB70455FC59} = {71B04C6F-047F-4D2C-9AB5-523285FDDB4C}
+	EndGlobalSection
+EndGlobal
