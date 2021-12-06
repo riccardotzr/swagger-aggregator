@@ -7,14 +7,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{71B04C6F-047
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{AB92DBD7-3C98-4840-8D97-9D6FDA89E56B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwaggerAggregator.Test", "test\SwaggerAggregator.Test\SwaggerAggregator.Test.csproj", "{3EE37E9A-645C-401E-9C33-A8D5FDC0E9D7}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{35E50B4B-5395-4310-A315-AFB308E93CE0}"
 	ProjectSection(SolutionItems) = preProject
 		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwaggerAggregator", "src\SwaggerAggregator\SwaggerAggregator.csproj", "{BEEAC872-1EF5-4AE6-8BA8-5BB70455FC59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwaggerAggregator.UnitTests", "test\SwaggerAggregator.UnitTests\SwaggerAggregator.UnitTests.csproj", "{183E83B1-F6AB-4CA9-A88A-4C52FC274A1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwaggerAggregator.IntegrationTests", "test\SwaggerAggregator.IntegrationTests\SwaggerAggregator.IntegrationTests.csproj", "{1FC11FBE-91F5-47D1-8DED-74E45721EF72}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,17 +27,22 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3EE37E9A-645C-401E-9C33-A8D5FDC0E9D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3EE37E9A-645C-401E-9C33-A8D5FDC0E9D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3EE37E9A-645C-401E-9C33-A8D5FDC0E9D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3EE37E9A-645C-401E-9C33-A8D5FDC0E9D7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BEEAC872-1EF5-4AE6-8BA8-5BB70455FC59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BEEAC872-1EF5-4AE6-8BA8-5BB70455FC59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEEAC872-1EF5-4AE6-8BA8-5BB70455FC59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEEAC872-1EF5-4AE6-8BA8-5BB70455FC59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{183E83B1-F6AB-4CA9-A88A-4C52FC274A1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{183E83B1-F6AB-4CA9-A88A-4C52FC274A1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{183E83B1-F6AB-4CA9-A88A-4C52FC274A1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{183E83B1-F6AB-4CA9-A88A-4C52FC274A1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FC11FBE-91F5-47D1-8DED-74E45721EF72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FC11FBE-91F5-47D1-8DED-74E45721EF72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FC11FBE-91F5-47D1-8DED-74E45721EF72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FC11FBE-91F5-47D1-8DED-74E45721EF72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{3EE37E9A-645C-401E-9C33-A8D5FDC0E9D7} = {AB92DBD7-3C98-4840-8D97-9D6FDA89E56B}
 		{BEEAC872-1EF5-4AE6-8BA8-5BB70455FC59} = {71B04C6F-047F-4D2C-9AB5-523285FDDB4C}
+		{183E83B1-F6AB-4CA9-A88A-4C52FC274A1B} = {AB92DBD7-3C98-4840-8D97-9D6FDA89E56B}
+		{1FC11FBE-91F5-47D1-8DED-74E45721EF72} = {AB92DBD7-3C98-4840-8D97-9D6FDA89E56B}
 	EndGlobalSection
 EndGlobal

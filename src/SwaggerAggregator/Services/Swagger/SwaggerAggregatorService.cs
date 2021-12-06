@@ -217,6 +217,11 @@ namespace SwaggerAggregator
         /// <param name="builder"></param>
         private void BuildDocument(OpenApiDocument currentServiceDocument, OpenApiDocumentBuilder builder) 
         {
+            if (currentServiceDocument.Servers != null && currentServiceDocument.Servers.Any())
+            {
+                builder.SetServers(currentServiceDocument.Servers);
+            }
+
             if (currentServiceDocument.Tags != null && currentServiceDocument.Tags.Any())
             {
                 builder.SetTags(currentServiceDocument.Tags);

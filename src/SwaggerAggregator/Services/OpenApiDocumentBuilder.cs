@@ -68,13 +68,24 @@ namespace SwaggerAggregator
 
         public OpenApiDocumentBuilder SetServers(IList<OpenApiServer> servers)
         {
-            foreach (var server in servers)
+            //var serversToAdd = _document.Servers.Where(x => servers.Any(y => y.Url == x.Url)).ToList();
+            var serversToAdd = servers.Where(x => !_document.Servers.Any(y => y.Url == x.Url)).ToList();
+
+            if (serversToAdd != null && serversToAdd.Any())
             {
-                if (!_document.Servers.Contains(server))
+                foreach (var item in serversToAdd)
                 {
-                    _document.Servers.Add(server);
+                    _document.Servers.Add(item);
                 }
             }
+
+            // foreach (var server in servers)
+            // {
+            //     if (!_document.Servers.Contains(server))
+            //     {
+            //         _document.Servers.Add(server);
+            //     }
+            // }
 
             return this;
         }
